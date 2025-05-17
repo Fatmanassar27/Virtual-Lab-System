@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virtual Lab System", "Virtual Lab System\Virtual Lab System.csproj", "{98E82A0C-4B36-44D7-B6E6-E5FC5783ABCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98E82A0C-4B36-44D7-B6E6-E5FC5783ABCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E82A0C-4B36-44D7-B6E6-E5FC5783ABCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E82A0C-4B36-44D7-B6E6-E5FC5783ABCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E82A0C-4B36-44D7-B6E6-E5FC5783ABCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7175E50-52F1-4E3E-83C2-296725F2AC0A}
+	EndGlobalSection
+EndGlobal
