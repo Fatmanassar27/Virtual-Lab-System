@@ -23,7 +23,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // خلي بالك، فيه إعدادات JWT اسمها JwtSettings، وهتحتاج تستخدمها في أي وقت باستخدام IOptions<JwtSettings>
 builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings")
+    builder.Configuration.GetSection("JwtSettings")  
 );
 
 
