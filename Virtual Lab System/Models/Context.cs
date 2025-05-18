@@ -8,6 +8,7 @@ namespace Virtual_Lab_System.Models
     {
         public DbSet<Experiment> Experiments { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
         public Context(DbContextOptions<Context> options) : base(options) { }
     }
 

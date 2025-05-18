@@ -24,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Admin\" />
+    <Folder Include="Teacher\" />
+    <Folder Include="Student\" />
     <Folder Include="WWWroot\" />
   </ItemGroup>
 

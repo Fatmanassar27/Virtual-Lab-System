@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Virtual_Lab_System.Models
 {
@@ -13,7 +14,11 @@ namespace Virtual_Lab_System.Models
         public string? Description { get; set; }
 
         public string? PdfFileName { get; set; }
+        public int SubjectId { get; set; }
 
+        // Navigation Property
+        [ForeignKey(nameof(SubjectId))]
+        public Subject Subject { get; set; }
         public ICollection<Report> Reports { get; set; }
     }
 }
