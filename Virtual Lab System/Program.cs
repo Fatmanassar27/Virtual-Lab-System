@@ -1,44 +1,90 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
-using Virtual_Lab_System.Helpers;
+using System.Text;
 using Virtual_Lab_System.Models;
+using Virtual_Lab_System.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Virtual Lab System", Version = "v1" });
+});
 
 //Add Context 
 builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CS")));
 
 //Add Identity 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<Context>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+}).AddEntityFrameworkStores<Context>()
     .AddDefaultTokenProviders();
 
-// خلي بالك، فيه إعدادات JWT اسمها JwtSettings، وهتحتاج تستخدمها في أي وقت باستخدام IOptions<JwtSettings>
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings")  
-);
+builder.Services.AddScoped<IExperimentRepository, ExperimentRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
-
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    foreach (Role role in Enum.GetValues(typeof(Role)))
+    {
+        string roleName = role.ToString();
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Virtual Lab System v1");
+        options.RoutePrefix = "swagger";
+    });
 }
-
 app.UseHttpsRedirection();
+app.UseStaticFiles();     // تفعيل الوصول للملفات الثابتة زي الصور
+app.UseAuthentication();  // تفعيل المصادقة
+app.UseAuthorization();   // تفعيل التفويض
+app.MapControllers();     // ربط الكنترولرز
+app.Run();                // تشغيل التطبيق
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

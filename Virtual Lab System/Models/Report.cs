@@ -8,9 +8,9 @@ namespace Virtual_Lab_System.Models
         [Key]
         public int Id { get; set; }
 
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         [ForeignKey("StudentId")]
-        public Student Student { get; set; }
+        public ApplicationUser Student { get; set; }
 
         public int ExperimentId { get; set; }
         [ForeignKey("ExperimentId")]
