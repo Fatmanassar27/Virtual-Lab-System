@@ -35,6 +35,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<IExperimentRepository, ExperimentRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
 
 builder.Services.AddAuthentication(options =>
 {

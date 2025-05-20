@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Virtual_Lab_System.DTOS;
 using Virtual_Lab_System.Models;
 
-namespace Virtual_Lab_System.Controllers
+namespace Virtual_Lab_System.Controllers.Authintcation
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -99,7 +99,7 @@ namespace Virtual_Lab_System.Controllers
             user.ProfileImage = $"/Uploads/{user.Id}_{imageFile.FileName}";
             await _userManager.UpdateAsync(user);
 
-            return Ok(new { ProfileImage = user.ProfileImage });
+            return Ok(new { user.ProfileImage });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)

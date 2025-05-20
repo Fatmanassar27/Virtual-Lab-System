@@ -11,7 +11,7 @@ namespace Virtual_Lab_System.Models
         public string? ProfileImage { get; set; }
         public int? SubjectId { get; set; }
         [ForeignKey("SubjectId")]
-        public Subject Subject { get; set; }
+        public Subject? Subject { get; set; }
         public ICollection<Report>? Reports { get; set; }
 
     }
