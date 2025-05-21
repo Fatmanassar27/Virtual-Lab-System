@@ -9,5 +9,7 @@ namespace Virtual_Lab_System.DTOS
         [Required]
         public string Description { get; set; }
         public string PdfPath { get; set; }
+        public int SubjectId { get; set; }
+        public string TeacherId { get; set; }
     }
 }

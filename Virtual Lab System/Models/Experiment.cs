@@ -14,11 +14,19 @@ namespace Virtual_Lab_System.Models
         public string? Description { get; set; }
 
         public string? PdfFileName { get; set; }
+
         public int SubjectId { get; set; }
 
-        // Navigation Property
+        public string TeacherId { get; set; }  // Foreign key
+
+        // Navigation Properties
         [ForeignKey(nameof(SubjectId))]
         public Subject Subject { get; set; }
-        public ICollection<Report> Reports { get; set; }
+
+        [ForeignKey(nameof(TeacherId))]
+        public ApplicationUser Teacher { get; set; }
+
+        public ICollection<Report> Reports { get; set; } = new List<Report>();
     }
+
 }

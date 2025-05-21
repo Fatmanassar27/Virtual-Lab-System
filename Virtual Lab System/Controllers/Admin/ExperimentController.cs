@@ -9,5 +9,6 @@ namespace Virtual_Lab_System.Controllers.Admin
     [Authorize(Roles = "Admin")]
     public class ExperimentController : ControllerBase
     {
+        
     }
 }

@@ -13,23 +13,23 @@ public class ExperimentRepository : IExperimentRepository
 
     public async Task<List<Experiment>> GetAll(int page, int pageSize, string search)
     {
-        var query = _context.Experiments.AsQueryable();
+        var query = _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).AsQueryable();
         if (!string.IsNullOrEmpty(search))
-            query = query.Where(e => e.Title.Contains(search) || e.Description.Contains(search));
+            query = query.Where(e => e.Title.ToLower().Contains(search.ToLower()) || e.Description.ToLower().Contains(search.ToLower()));
 
         return await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
     }
 
     public async Task<int> GetTotalCount(string search)
     {
-        var query = _context.Experiments.AsQueryable();
+        var query = _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).AsQueryable();
         if (!string.IsNullOrEmpty(search))
             query = query.Where(e => e.Title.Contains(search) || e.Description.Contains(search));
 
         return await query.CountAsync();
     }
 
-    public async Task<Experiment?> GetById(int id) => await _context.Experiments.FindAsync(id);
+    public async Task<Experiment?> GetById(int id) => await _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).FindAsync(id);
 
     public async Task<Experiment> Add(Experiment experiment)
     {
