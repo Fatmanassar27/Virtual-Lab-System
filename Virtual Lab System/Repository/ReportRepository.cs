@@ -25,6 +25,19 @@ public class ReportRepository : IReportRepository
 
         return (total, reports);
     }
+    public async Task<(int Total, List<Report> Reports)> GetReportsForExperiment(int experimentId ,int page, int pageSize)
+    {
+        var total = await _context.Reports.CountAsync();
+        var reports = await _context.Reports
+            .Include(r => r.Student)
+            .Include(r => r.Experiment)
+            .Where(r => r.ExperimentId == experimentId)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (total, reports);
+    }
 
     public async Task<Report?> GetReportById(int id)
     {
@@ -72,4 +85,14 @@ public class ReportRepository : IReportRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<Report?> GradeReport(int reportId, float? grade)
+    {
+        var report = await GetReportById(reportId);
+        report.Grade = grade;
+        _context.Reports.Update(report);
+        _context.SaveChanges();
+        return report;
+    }
 }
+ 

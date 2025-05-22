@@ -13,5 +13,7 @@ namespace Virtual_Lab_System.DTOS
         public string StudentName { get; set; }
         public string ExperimentTitle { get; set; }
         public DateTime SubmissionDate { get; set; }
+        public float? Grade { get; set; }
+        public string? Comments { get; set; }
     }
 }

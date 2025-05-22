@@ -16,8 +16,10 @@ namespace Virtual_Lab_System.Models
         [ForeignKey("ExperimentId")]
         public Experiment Experiment { get; set; }
 
-        public string ResultData { get; set; }
+        public string? ResultData { get; set; }
 
         public DateTime SubmissionDate { get; set; } = DateTime.Now;
+        public float? Grade { get; set; }
+        public string? Comments { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Virtual_Lab_System.Controllers.Student
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Student")]
+    [Authorize(Roles = "Student,Teacher,Admin")]
     public class StudentProfileController : ControllerBase
     {
         private readonly unitOfWork _unit;

@@ -5,6 +5,7 @@ namespace Virtual_Lab_System.Repository
     public interface IExperimentRepository
     {
         Task<List<Experiment>> GetAll(int page, int pageSize, string search);
+        Task<List<Experiment>> GetExperimentsByTeacher(string userId);
         Task<int> GetTotalCount(string search);
         Task<Experiment?> GetById(int id);
         Task<Experiment> Add(Experiment experiment);

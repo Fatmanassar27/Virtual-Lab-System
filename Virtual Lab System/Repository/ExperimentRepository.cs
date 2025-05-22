@@ -85,4 +85,10 @@ public class ExperimentRepository : IExperimentRepository
 
         return experiment.PdfFileName;
     }
+
+    public async Task<List<Experiment>> GetExperimentsByTeacher(string userId)
+    {
+        var query = await _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).Where(e => e.TeacherId == userId).ToListAsync();
+        return query;
+    }
 }
