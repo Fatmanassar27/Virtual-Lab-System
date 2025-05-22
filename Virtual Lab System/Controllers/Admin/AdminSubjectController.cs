@@ -11,7 +11,7 @@ namespace Virtual_Lab_System.Controllers.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminSubjectController : ControllerBase
     {
         unitOfWork _unit;

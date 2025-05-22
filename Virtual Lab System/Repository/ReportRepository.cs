@@ -2,6 +2,7 @@
 using Virtual_Lab_System.Models;
 using Virtual_Lab_System.DTOS;
 using Virtual_Lab_System.Repository;
+using Microsoft.AspNetCore.Identity;
 
 public class ReportRepository : IReportRepository
 {
@@ -32,15 +33,25 @@ public class ReportRepository : IReportRepository
             .Include(r => r.Experiment)
             .FirstOrDefaultAsync(r => r.Id == id);
     }
+    public List<Report?> GetReportsByStudentUserName(string username)
+    {
+        var reports = _context.Reports
+            .Include(r => r.Student)
+            .Include(r => r.Experiment)
+            .Where(r => r.Student.UserName == username).ToList();
+
+        return reports;
+    }
 
     public async Task<Report?> CreateReport(string studentId, ReportDto dto)
     {
-        var student = await _context.Users.FindAsync(studentId);
+        var student = _context.Users.Include(u => u.Subject).Include(u => u.Reports).FirstOrDefault(u => u.UserName == studentId);
+
         if (student == null) return null;
 
         var report = new Report
         {
-            StudentId = studentId,
+            StudentId = student.Id,
             ExperimentId = dto.ExperimentId,
             ResultData = dto.Results,
             SubmissionDate = DateTime.UtcNow

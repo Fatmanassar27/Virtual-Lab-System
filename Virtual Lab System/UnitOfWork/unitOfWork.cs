@@ -66,7 +66,7 @@ namespace Virtual_Lab_System.UnitOfWork
             {
                 if (_user == null)
                 {
-                    _user = new UserRepository(_userManager);
+                    _user = new UserRepository(_userManager,_mapper);
                 }
                 return _user;
             }

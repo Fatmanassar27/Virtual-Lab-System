@@ -7,6 +7,7 @@ namespace Virtual_Lab_System.Repository
     {
         Task<(int Total, List<Report> Reports)> GetAllReports(int page, int pageSize);
         Task<Report?> GetReportById(int id);
+        List<Report?> GetReportsByStudentUserName(string username);
         Task<Report?> CreateReport(string studentId, ReportDto dto);
         Task<bool> DeleteReport(int id);
     }

@@ -29,18 +29,25 @@ namespace Virtual_Lab_System.Mapping
                 }).ReverseMap();
             CreateMap<Report, ReportDto>().AfterMap((src, dest) =>
             {
-                dest.Id = src.Id;
                 dest.StudentName = src.Student.UserName;
                 dest.Results = src.ResultData;
                 dest.SubmissionDate = src.SubmissionDate;
                 dest.ExperimentId = src.ExperimentId;
                 dest.ExperimentTitle = src.Experiment.Title;
+                dest.StudentId = src.StudentId;
+            }).ReverseMap(); 
+            CreateMap<Report, ReportOfStudentDto>().AfterMap((src, dest) =>
+            {
+                dest.Results = src.ResultData;
+                dest.SubmissionDate = src.SubmissionDate;
+                dest.ExperimentId = src.ExperimentId;
             }).ReverseMap();
 
             CreateMap<ApplicationUser, TeacherDto>()
                .ForMember(dest => dest.Subject, opt => opt.MapFrom(src => src.Subject.Name)).ReverseMap();
 
             CreateMap<ApplicationUser, StudentDto>().ReverseMap();
+            CreateMap<ApplicationUser, UpdateUserDto>().ReverseMap();
         }
     }
 }

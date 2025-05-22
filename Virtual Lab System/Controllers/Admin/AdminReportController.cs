@@ -10,7 +10,7 @@ namespace Virtual_Lab_System.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminReportController : ControllerBase
     {
         private readonly unitOfWork _unit;

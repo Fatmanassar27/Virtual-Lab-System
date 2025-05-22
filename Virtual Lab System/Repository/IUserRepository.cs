@@ -1,4 +1,5 @@
-﻿using Virtual_Lab_System.Models;
+﻿using Virtual_Lab_System.DTOS;
+using Virtual_Lab_System.Models;
 
 namespace Virtual_Lab_System.Repository
 {
@@ -6,7 +7,10 @@ namespace Virtual_Lab_System.Repository
     {
         ApplicationUser? GetById(string id);
         IEnumerable<ApplicationUser> GetAll();
-        IEnumerable<ApplicationUser> GetTeachers(); // لو فيه أدوار
+        IEnumerable<ApplicationUser> GetTeachers();
+        IEnumerable<ApplicationUser> GetStudents();
+        Task<ApplicationUser?> UpdateUser(string userName, UpdateUserDto dto);
+        ApplicationUser? GetByName(string name);
     }
 
 }

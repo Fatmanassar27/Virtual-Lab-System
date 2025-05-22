@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Virtual_Lab_System.DTOS;
 using Virtual_Lab_System.Models;
 
 namespace Virtual_Lab_System.Repository
@@ -7,15 +9,21 @@ namespace Virtual_Lab_System.Repository
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserRepository(UserManager<ApplicationUser> userManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public ApplicationUser? GetById(string id)
         {
-            return _userManager.Users.FirstOrDefault(u => u.Id == id);
+            return _userManager.Users.Include(u => u.Subject).Include(u => u.Reports).FirstOrDefault(u => u.Id == id);
+        }
+        public ApplicationUser? GetByName(string name)
+        {
+            return _userManager.Users.Include(u => u.Subject).Include(u => u.Reports).FirstOrDefault(u => u.UserName == name);
         }
 
         public IEnumerable<ApplicationUser> GetAll()
@@ -54,6 +62,16 @@ namespace Virtual_Lab_System.Repository
             }
 
             return Students;
+        }
+        public async Task<ApplicationUser?> UpdateUser(string userName, UpdateUserDto dto)
+        {
+            var user =_userManager.Users.Include(u => u.Subject).Include(u => u.Reports).FirstOrDefault(u => u.UserName == userName);
+            if (user == null) return null;
+
+            _mapper.Map(dto, user);
+
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded ? user : null;
         }
     }
 

@@ -11,7 +11,7 @@ namespace Virtual_Lab_System.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminExperimentController : ControllerBase
     {
         private readonly unitOfWork _unit;
@@ -24,7 +24,16 @@ namespace Virtual_Lab_System.Controllers.Admin
         {
             var experiments = await _unit.Experiment.GetAll(page, pageSize, search);
             var total = await _unit.Experiment.GetTotalCount(search);
+            foreach (var experiment in experiments)
+            {
+                experiment.Teacher = _unit.User.GetById(experiment.TeacherId);
+            }
             var result = _unit._mapper.Map<List<ExperimentDto>>(experiments);
+            foreach (var exp in result)
+            {
+                exp.TeacherName = _unit.User.GetById(exp.TeacherId).FullName;
+            }
+            
             return Ok(new { Total = total, Experiments = result });
         }
 
@@ -33,7 +42,9 @@ namespace Virtual_Lab_System.Controllers.Admin
         {
             var exp = await _unit.Experiment.GetById(id);
             if (exp == null) return NotFound();
+            exp.Teacher = _unit.User.GetById(exp.TeacherId);
             var result = _unit._mapper.Map<ExperimentDto>(exp);
+            result.TeacherName = exp.Teacher.FullName;
             return Ok(result);
         }
         [HttpPost]
