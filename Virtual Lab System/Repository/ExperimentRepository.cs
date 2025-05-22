@@ -29,7 +29,10 @@ public class ExperimentRepository : IExperimentRepository
         return await query.CountAsync();
     }
 
-    public async Task<Experiment?> GetById(int id) => await _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).FindAsync(id);
+    public async Task<Experiment?> GetById(int id)
+    {
+        return await _context.Experiments.Include(e => e.Subject).Include(e => e.Teacher).FirstOrDefaultAsync(e => e.Id == id); 
+    }
 
     public async Task<Experiment> Add(Experiment experiment)
     {

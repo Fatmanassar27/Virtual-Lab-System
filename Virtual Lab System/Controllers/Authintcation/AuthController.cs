@@ -98,7 +98,7 @@ namespace Virtual_Lab_System.Controllers.Authintcation
 
             user.ProfileImage = $"/Uploads/{user.Id}_{imageFile.FileName}";
             await _userManager.UpdateAsync(user);
-
+           
             return Ok(new { user.ProfileImage });
         }
 

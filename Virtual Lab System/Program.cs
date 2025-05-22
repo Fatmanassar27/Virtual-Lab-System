@@ -7,6 +7,7 @@ using System;
 using System.Text;
 using Virtual_Lab_System.Models;
 using Virtual_Lab_System.Repository;
+using Virtual_Lab_System.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.AddScoped<IExperimentRepository, ExperimentRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<unitOfWork>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

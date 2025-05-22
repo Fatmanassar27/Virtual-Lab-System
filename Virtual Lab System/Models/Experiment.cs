@@ -17,16 +17,16 @@ namespace Virtual_Lab_System.Models
 
         public int SubjectId { get; set; }
 
-        public string TeacherId { get; set; }  // Foreign key
+        public string? TeacherId { get; set; }  // Foreign key
 
         // Navigation Properties
         [ForeignKey(nameof(SubjectId))]
         public Subject Subject { get; set; }
 
         [ForeignKey(nameof(TeacherId))]
-        public ApplicationUser Teacher { get; set; }
+        public ApplicationUser? Teacher { get; set; }
 
-        public ICollection<Report> Reports { get; set; } = new List<Report>();
+        public ICollection<Report>? Reports { get; set; } = new List<Report>();
     }
 
 }
